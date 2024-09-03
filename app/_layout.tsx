@@ -1,37 +1,47 @@
-import { DarkTheme, DefaultTheme, ThemeProvider } from '@react-navigation/native';
-import { useFonts } from 'expo-font';
+import React, { useEffect } from 'react';
 import { Stack } from 'expo-router';
-import * as SplashScreen from 'expo-splash-screen';
-import { useEffect } from 'react';
-import 'react-native-reanimated';
+import messaging from '@react-native-firebase/messaging';
 
-import { useColorScheme } from '@/hooks/useColorScheme';
 
-// Prevent the splash screen from auto-hiding before asset loading is complete.
-SplashScreen.preventAutoHideAsync();
 
-export default function RootLayout() {
-  const colorScheme = useColorScheme();
-  const [loaded] = useFonts({
-    SpaceMono: require('../assets/fonts/SpaceMono-Regular.ttf'),
-  });
+const _layout = () => {
+    /**async function requestUserPermission() {
+        const authStatus = await messaging().requestPermission();
+        const enabled =
+          authStatus === messaging.AuthorizationStatus.AUTHORIZED ||
+          authStatus === messaging.AuthorizationStatus.PROVISIONAL;
+      
+        if (enabled) {
+          console.log('Authorization status:', authStatus);
+        }
+      }
+      
+      const getToken = async () => {
+        try {
+          const token = await messaging().getToken();
+          console.log("Token =", token);
+          return token;
+        } catch (error) {
+          console.error("Error getting token:", error);
+        }
+      };
 
-  useEffect(() => {
-    if (loaded) {
-      SplashScreen.hideAsync();
-    }
-  }, [loaded]);
+useEffect(()=>{
+    requestUserPermission()
+    getToken()
+},[])*/
+    return (
+        <Stack>
+            <Stack.Screen 
+                name="index" 
+                options={{ headerShown: false }} 
+            />
+            <Stack.Screen 
+                name="resturantScreen" 
+                options={{ headerShown: true, title: 'Restaurant' }} 
+            />
+        </Stack>
+    );
+};
 
-  if (!loaded) {
-    return null;
-  }
-
-  return (
-    <ThemeProvider value={colorScheme === 'dark' ? DarkTheme : DefaultTheme}>
-      <Stack>
-        <Stack.Screen name="(tabs)" options={{ headerShown: false }} />
-        <Stack.Screen name="+not-found" />
-      </Stack>
-    </ThemeProvider>
-  );
-}
+export default _layout;
