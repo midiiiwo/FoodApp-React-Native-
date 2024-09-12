@@ -1,7 +1,10 @@
 import React, { useEffect, useState } from 'react';
-import { AntDesign, Feather } from '@expo/vector-icons';
-import { View, Text, Image, ActivityIndicator, TouchableOpacity, ScrollView } from 'react-native';
+import { AntDesign } from '@expo/vector-icons';
+import { View, Text, Image, ActivityIndicator, TouchableOpacity, ScrollView, TouchableWithoutFeedback } from 'react-native';
 import { themeColors } from '@/hooks';
+import { useNavigation } from 'expo-router';
+import { NativeStackNavigationProp } from '@react-navigation/native-stack';
+import { RootStackParamList } from '@/hooks/types'; // Adjust import path as necessary
 
 interface Meal {
   idMeal: string;
@@ -13,6 +16,8 @@ const FeaturedRow = () => {
   const [meals, setMeals] = useState<Meal[]>([]);
   const [loading, setLoading] = useState(true);
   const [showAll, setShowAll] = useState(false);
+
+  const navigation = useNavigation<NativeStackNavigationProp<RootStackParamList>>();
 
   useEffect(() => {
     const fetchMeals = async () => {
@@ -47,41 +52,48 @@ const FeaturedRow = () => {
       >
         {displayedMeals.length > 0 ? (
           displayedMeals.map(meal => (
-            <View key={meal.idMeal} className='mr-6 bg-white rounded-3xl shadow-lg'>
-              <View style={{ width: 150, height: 150 }}>
-                <Image
-                  source={{ uri: meal.strMealThumb }}
-                  style={{
-                    width: '100%',
-                    height: '100%',
-                    borderRadius: 15,
-                    resizeMode: 'center',
-                  }}
-                />
-              </View>
-              <View className='p-2'>
-                <Text
-                  className='font-bold text-lg'
-                  numberOfLines={1}
-                  ellipsizeMode='tail'
-                  style={{ width: 150 }}
-                >
-                  {meal.strMeal}
-                </Text>
-                <Text
-                  className='text-gray-500 text-xs'
-                  numberOfLines={1}
-                  ellipsizeMode='tail'
-                  style={{ width: 150 }}
-                >
-                  {meal.strMeal}
-                </Text>
-                <View className='mt-1 flex-row'>
-                    <AntDesign name='star' size={15} color='#D4AF37'/>
+            <TouchableWithoutFeedback
+              key={meal.idMeal}
+              onPress={() => navigation.navigate('resturantScreen', { mealId: meal.idMeal })}
+            >
+
+
+              <View className='mr-6 bg-white rounded-3xl shadow-lg'>
+                <View style={{ width: 150, height: 150 }}>
+                  <Image
+                    source={{ uri: meal.strMealThumb }}
+                    style={{
+                      width: '100%',
+                      height: '100%',
+                      borderRadius: 15,
+                      resizeMode: 'center',
+                    }}
+                  />
+                </View>
+                <View className='p-2'>
+                  <Text
+                    className='font-bold text-lg'
+                    numberOfLines={1}
+                    ellipsizeMode='tail'
+                    style={{ width: 150 }}
+                  >
+                    {meal.strMeal}
+                  </Text>
+                  <Text
+                    className='text-gray-500 text-xs'
+                    numberOfLines={1}
+                    ellipsizeMode='tail'
+                    style={{ width: 150 }}
+                  >
+                    {meal.strMeal}
+                  </Text>
+                  <View className='mt-1 flex-row'>
+                    <AntDesign name='star' size={15} color='#D4AF37' />
                     <Text className='text-gray-500 ml-3'>review(5.4)</Text>
+                  </View>
                 </View>
               </View>
-            </View>
+            </TouchableWithoutFeedback>
           ))
         ) : (
           <Text>No meals found.</Text>

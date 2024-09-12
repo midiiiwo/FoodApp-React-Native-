@@ -38,7 +38,11 @@ useEffect(()=>{
             />
             <Stack.Screen 
                 name="resturantScreen" 
-                options={{ headerShown: true, title: 'Restaurant' }} 
+                options={{ headerShown: false, title: 'Restaurant' }} 
+            />
+            <Stack.Screen 
+                name="CartScreen" 
+                options={{ headerShown: false, title: 'CartScreen', presentation: 'modal' }} 
             />
         </Stack>
     );

@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { View, Text, SafeAreaView, StatusBar, TextInput, ScrollView } from 'react-native';
+import { View, Text,  StatusBar, TextInput, ScrollView } from 'react-native';
 import { AntDesign, Feather } from '@expo/vector-icons';
 import { themeColors } from "@/hooks";
 import Categories from '@/components/categories';
@@ -8,6 +8,7 @@ import FeaturedRow1 from '@/components/featuredRow1';
 import FeaturedRow2 from '@/components/featuredRow2';
 import SearchProduct from '@/components/searchResult';
 import { useSearchMeals } from '@/hooks/search';
+import { SafeAreaView } from 'react-native-safe-area-context';
 
 
 const Index = () => {
